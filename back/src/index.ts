@@ -1,6 +1,9 @@
 import express, { type Request, type Response } from "express";
 import cors from "cors";
 
+const DATE_NAGER_API_URL = process.env.DATE_NAGER_API_URL;
+const COUNTRIES_NOW_API_URL = process.env.COUNTRIES_NOW_API_URL;
+
 const app = express();
 app.use(
   cors({
@@ -9,9 +12,7 @@ app.use(
 );
 
 app.get("/countries", async (req: Request, res: Response) => {
-  const response = await fetch(
-    "https://date.nager.at/api/v3/AvailableCountries"
-  );
+  const response = await fetch(`${DATE_NAGER_API_URL}/AvailableCountries`);
 
   const countries = await response.json();
 
@@ -22,13 +23,13 @@ app.get("/countries/:countryCode", async (req: Request, res: Response) => {
   const countryCode = req.params.countryCode;
 
   const infoResponse = await fetch(
-    `https://date.nager.at/api/v3/CountryInfo/${countryCode}`
+    `${DATE_NAGER_API_URL}/CountryInfo/${countryCode}`
   );
 
   const info = await infoResponse.json();
 
   const populationResponse = await fetch(
-    `https://countriesnow.space/api/v0.1/countries/population`,
+    `${COUNTRIES_NOW_API_URL}/countries/population`,
     {
       method: "POST",
       body: JSON.stringify({
@@ -43,7 +44,7 @@ app.get("/countries/:countryCode", async (req: Request, res: Response) => {
   const populationInfo = await populationResponse.json();
 
   const flagResponse = await fetch(
-    `https://countriesnow.space/api/v0.1/countries/flag/images`,
+    `${COUNTRIES_NOW_API_URL}/countries/flag/images`,
     {
       method: "POST",
       body: JSON.stringify({
