@@ -21,7 +21,7 @@ export const description = "A linear area chart";
 
 const chartConfig = {
   value: {
-    label: "Desktop",
+    label: "Population",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
